@@ -1,0 +1,34 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0ff187ecd065a1c40852f4f49b8d612f, type: 3}
+  m_Name: E01_Diver
+  m_EditorClassIdentifier: Assembly-CSharp::ShootingGame.Enemy.EnemyData
+  enemyName: Diver
+  hp: 3
+  score: 100
+  breakable: 1
+  sprite: {fileID: 0}
+  color: {r: 1, g: 1, b: 1, a: 1}
+  hitboxRadius: 0.3
+  appearDuration: 0.3
+  moveType: 0
+  moveSpeed: 3
+  homingTurnRate: 120
+  canFire: 0
+  fireInterval: 1.5
+  bulletSpeed: 6
+  bulletRadius: 0.12
+  bulletDamage: 1
+  bulletColor: {r: 1, g: 0.5, b: 0.3, a: 1}
+  dropType: 1
+  dropChance: 0.5
+  weaponDrop: {fileID: 0}

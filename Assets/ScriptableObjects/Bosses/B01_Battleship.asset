@@ -1,0 +1,97 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 06a5f34f705b87a4192ec5a9c8bc9fc4, type: 3}
+  m_Name: B01_Battleship
+  m_EditorClassIdentifier: Assembly-CSharp::ShootingGame.Boss.BossData
+  bossName: Crimson Battleship
+  bodySprite: {fileID: -1405410301073735101, guid: 0dfab745e7358674bb24c27e3f518c0c, type: 3}
+  bodyColor: {r: 1, g: 1, b: 1, a: 1}
+  bodyScale: 2.3
+  coreHp: 300
+  coreHitRadius: 0.75
+  score: 10000
+  entrySpeed: 2
+  battleY: 2.6
+  useTransform: 1
+  transformAtHp: 0.5
+  transformSprite: {fileID: 0}
+  transformColor: {r: 0.75, g: 0.45, b: 1, a: 1}
+  transformInvulnTime: 1.2
+  separateOnDeath: 1
+  separatedEnemy: {fileID: 11400000, guid: 7cef39ff53ad2ff4bb258021a907219d, type: 2}
+  separatedCount: 6
+  parts:
+  - name: Cannon1
+    sprite: {fileID: -3190599381928712351, guid: 1d9ca2bfb5f447f408128ca6a136365c, type: 3}
+    color: {r: 1, g: 1, b: 1, a: 1}
+    scale: 0.35
+    localPos: {x: -0.85, y: -0.1}
+    hp: 60
+    hitRadius: 0.5
+    score: 800
+    canFire: 1
+    fireInterval: 1.8
+    bulletSpeed: 5
+    bulletDamage: 1
+    bulletRadius: 0.13
+    bulletColor: {r: 1, g: 0.6, b: 0.3, a: 1}
+  - name: Cannon2
+    sprite: {fileID: -3190599381928712351, guid: 1d9ca2bfb5f447f408128ca6a136365c, type: 3}
+    color: {r: 1, g: 1, b: 1, a: 1}
+    scale: 0.35
+    localPos: {x: 0.85, y: -0.1}
+    hp: 60
+    hitRadius: 0.5
+    score: 800
+    canFire: 1
+    fireInterval: 1.8
+    bulletSpeed: 5
+    bulletDamage: 1
+    bulletRadius: 0.13
+    bulletColor: {r: 1, g: 0.6, b: 0.3, a: 1}
+  phases:
+  - name: P1 Aimed
+    hpThreshold: 1
+    moveAmplitudeX: 2.5
+    moveSpeed: 1
+    pattern: 0
+    fireInterval: 1
+    wayCount: 1
+    spreadAngle: 0
+    bulletSpeed: 5
+    bulletDamage: 1
+    bulletRadius: 0.15
+    bulletColor: {r: 1, g: 0.4, b: 0.6, a: 1}
+  - name: P2 Spread
+    hpThreshold: 0.6
+    moveAmplitudeX: 3
+    moveSpeed: 1.7
+    pattern: 1
+    fireInterval: 1.2
+    wayCount: 5
+    spreadAngle: 60
+    bulletSpeed: 5.5
+    bulletDamage: 1
+    bulletRadius: 0.15
+    bulletColor: {r: 1, g: 0.45, b: 0.55, a: 1}
+  - name: P3 Storm
+    hpThreshold: 0.3
+    moveAmplitudeX: 3.5
+    moveSpeed: 2.3
+    pattern: 2
+    fireInterval: 1.4
+    wayCount: 16
+    spreadAngle: 0
+    bulletSpeed: 4
+    bulletDamage: 1
+    bulletRadius: 0.15
+    bulletColor: {r: 1, g: 0.35, b: 0.75, a: 1}

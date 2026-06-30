@@ -1,0 +1,38 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2ac6dbdf495ce314088aeb4a430841fe, type: 3}
+  m_Name: W01_Vulcan
+  m_EditorClassIdentifier: Assembly-CSharp::ShootingGame.Weapon.WeaponData
+  weaponName: Vulcan
+  icon: {fileID: 0}
+  fireMode: 1
+  shotSpeed: 14
+  baseDamage: 1
+  damageDecay: 0
+  isPiercing: 0
+  spreadAngle: 14
+  bulletSprite: {fileID: 0}
+  bulletColor: {r: 0.7, g: 0.95, b: 1, a: 1}
+  bulletRadius: 0.1
+  isReflecting: 0
+  maxBounces: 0
+  wayCount: 01000000020000000300000004000000
+  damageMul:
+  - 1
+  - 1.25
+  - 1.6
+  - 2
+  fireInterval:
+  - 0.16
+  - 0.13
+  - 0.11
+  - 0.09

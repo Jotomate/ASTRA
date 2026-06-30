@@ -1,0 +1,84 @@
+# ============================================================
+# Unity .gitignore — ASTRA project
+# .claude/ is INTENTIONALLY tracked (cross-PC agent/skill sync)
+# ============================================================
+
+# --- Unity-generated folders ---
+[Ll]ibrary/
+[Tt]emp/
+[Oo]bj/
+[Bb]uild/
+[Bb]uilds/
+[Ll]ogs/
+[Uu]ser[Ss]ettings/
+[Mm]emoryCaptures/
+[Rr]ecordings/
+
+# --- Asset meta data (track everything else) ---
+# Unity asset .meta files are tracked. Do NOT add *.meta here.
+
+# --- Auto-generated VS / Rider / IDE files ---
+.vs/
+.vsconfig
+.idea/
+.consulo/
+ExportedObj/
+.DS_Store
+*.csproj
+*.unityproj
+*.sln
+*.slnx
+*.suo
+*.tmp
+*.user
+*.userprefs
+*.pidb
+*.booproj
+*.svd
+*.pdb
+*.mdb
+*.opendb
+*.VC.db
+
+# --- Build artifacts ---
+*.apk
+*.aab
+*.unitypackage
+*.app
+*.exe
+*.dll
+*.so
+*.dylib
+crashlytics-build.properties
+
+# --- OS junk ---
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# --- Misc ---
+sysinfo.txt
+*.stackdump
+
+# --- Secrets ---
+.env
+.env.*
+*.pem
+*.key
+
+# --- MCP / dev screenshots (verification artifacts, not game content) ---
+Assets/Screenshots/
+Assets/Screenshots.meta
+
+# --- Claude Code local-only state (per-PC permission cache) ---
+.claude/settings.local.json
+
+# ============================================================
+# Tracked (do NOT add to ignores):
+#   .claude/          — agent/skill/hook config (user wants synced)
+#   Assets/           — Unity game content
+#   ProjectSettings/  — Unity project settings
+#   Packages/         — Unity package manifest
+#   CLAUDE.md / GDD.md / HANDOFF.md — project docs
+# ============================================================

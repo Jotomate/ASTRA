@@ -1,0 +1,38 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2ac6dbdf495ce314088aeb4a430841fe, type: 3}
+  m_Name: W90_WideShot
+  m_EditorClassIdentifier: Assembly-CSharp::ShootingGame.Weapon.WeaponData
+  weaponName: WideShot
+  icon: {fileID: 0}
+  fireMode: 1
+  shotSpeed: 11
+  baseDamage: 1
+  damageDecay: 0
+  isPiercing: 0
+  spreadAngle: 55
+  bulletSprite: {fileID: 0}
+  bulletColor: {r: 1, g: 0.55, b: 0.2, a: 1}
+  bulletRadius: 0.1
+  isReflecting: 0
+  maxBounces: 0
+  wayCount: 03000000040000000500000006000000
+  damageMul:
+  - 1
+  - 1.1
+  - 1.2
+  - 1.4
+  fireInterval:
+  - 0.18
+  - 0.16
+  - 0.14
+  - 0.12
