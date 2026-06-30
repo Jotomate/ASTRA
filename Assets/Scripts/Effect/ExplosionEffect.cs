@@ -27,6 +27,13 @@ namespace ShootingGame.Effect
             gameObject.SetActive(false);
         }
 
+        /// <summary>색상을 지정해 재생(풀링/격파 이펙트용).</summary>
+        public void Play(Vector3 pos, float radius, Color tint)
+        {
+            color = tint;
+            Play(pos, radius);
+        }
+
         /// <summary>중심 pos에서 반경 radius까지 퍼지는 폭발 재생.</summary>
         public void Play(Vector3 pos, float radius)
         {

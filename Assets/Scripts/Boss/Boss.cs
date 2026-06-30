@@ -195,6 +195,7 @@ namespace ShootingGame.Boss
         {
             if (state == BossState.Dead || invulnTimer > 0f) return;
             coreHp -= amount;
+            if (AudioManager.Instance != null) AudioManager.Instance.Play("hit", 0.18f, 0.1f);
             if (GameManager.Instance != null) GameManager.Instance.NotifyBossHp(CoreHpRatio);
             if (coreHp <= 0f) { Die(); return; }
             CheckTransform();
@@ -234,6 +235,13 @@ namespace ShootingGame.Boss
                 GameManager.Instance.AddScore(data.score);
                 GameManager.Instance.NotifyBossDefeated();
             }
+            if (CameraShake.Instance != null) CameraShake.Instance.Shake(0.5f, 0.6f);
+            if (AudioManager.Instance != null) AudioManager.Instance.Play("bossexp", 0.9f);
+            if (EffectPool.Instance != null)
+                for (int i = 0; i < 6; i++)
+                    EffectPool.Instance.Play(transform.position + (Vector3)(UnityEngine.Random.insideUnitCircle * 1.3f),
+                                             1.1f, new Color(1f, 0.6f, 0.2f, 1f));
+
             Defeated?.Invoke();
             Destroy(gameObject);
         }

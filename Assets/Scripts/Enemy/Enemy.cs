@@ -23,6 +23,7 @@ namespace ShootingGame.Enemy
         float hp;
         float appearTimer;
         float fireTimer;
+        float flashTimer;
         Vector2 facing = Vector2.down;
         Vector2 spawnOrigin;
         int pathIndex;
@@ -82,6 +83,8 @@ namespace ShootingGame.Enemy
                 case EnemyState.Act:
                     Move(dt);
                     Fire(dt);
+                    if (flashTimer > 0f) { flashTimer -= dt; sr.color = Color.white; }
+                    else { Color c = data.color; c.a = 1f; sr.color = c; }
                     if (IsOffscreenBottom()) Despawn();   // 화면 아래로 빠지면 소멸(점수 없음)
                     break;
             }
@@ -141,6 +144,8 @@ namespace ShootingGame.Enemy
         {
             if (state == EnemyState.Dead || !data.breakable) return;
             hp -= amount;
+            flashTimer = 0.07f;
+            if (AudioManager.Instance != null) AudioManager.Instance.Play("hit", 0.4f);
             if (hp <= 0f) Die();
         }
 
@@ -150,6 +155,8 @@ namespace ShootingGame.Enemy
             Vector3 pos = transform.position;
             if (GameManager.Instance != null) GameManager.Instance.AddScore(data.score);
             if (DropManager.Instance != null) DropManager.Instance.SpawnDrop(data, pos);
+            if (EffectPool.Instance != null) EffectPool.Instance.Play(pos, 0.7f, new Color(1f, 0.7f, 0.3f, 1f));
+            if (AudioManager.Instance != null) AudioManager.Instance.Play("explosion", 0.55f);
             OnKilled?.Invoke(this);
             Despawn();
         }

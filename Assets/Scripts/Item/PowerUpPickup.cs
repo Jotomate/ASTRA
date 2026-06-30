@@ -35,6 +35,8 @@ namespace ShootingGame.Item
                 if (sqr <= pickupRadius * pickupRadius)
                 {
                     player.AddPower(amount);
+                    if (ShootingGame.Core.AudioManager.Instance != null)
+                        ShootingGame.Core.AudioManager.Instance.Play("power", 0.7f);
                     Destroy(gameObject);
                     return;
                 }

@@ -42,6 +42,8 @@ namespace ShootingGame.Item
                 if (sqrDist <= pickupRadius * pickupRadius)
                 {
                     target.Equip(weapon);
+                    if (ShootingGame.Core.AudioManager.Instance != null)
+                        ShootingGame.Core.AudioManager.Instance.Play("pickup", 0.7f);
                     Destroy(gameObject);
                     return;
                 }

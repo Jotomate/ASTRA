@@ -1,6 +1,7 @@
 using UnityEngine;
 using ShootingGame.Player;
 using ShootingGame.Bullet;
+using ShootingGame.Core;
 
 namespace ShootingGame.Weapon
 {
@@ -98,6 +99,9 @@ namespace ShootingGame.Weapon
         {
             BulletPool poolInst = BulletPool.Instance;
             if (poolInst == null || Current == null) return;
+
+            if (AudioManager.Instance != null)
+                AudioManager.Instance.Play(Current.isPiercing ? "laser" : "shoot", 0.28f);
 
             int level = player.PowerLevel;
             int ways = Mathf.Max(1, Current.GetWayCount(level));

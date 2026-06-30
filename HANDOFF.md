@@ -35,12 +35,18 @@
 - pixellab 실제 스프라이트: 기체·적기·보스 본체.
 - **5대 커스텀 에디터**(무기/적기/편대/보스/레벨) — 카드 목록·생성·삭제·편집.
 
+**사운드 / 손맛 (juice)**
+- `AudioManager`: **런타임 합성** SFX(발사/레이저/피격/폭발/보스폭발/픽업/파워업/봄/사망/경고) + 절차적 **BGM 루프**(외부 오디오 파일 없음). 8소스 라운드로빈 + 피치 변주.
+- `CameraShake`(Main Camera): 보스 사망·봄·피탄 시 흔들림(unscaledDeltaTime).
+- `EffectPool`: 격파 폭발 이펙트 풀(20개), 적/보스 사망 시 재생.
+- 피격 플래시(Enemy 흰색), 발사·픽업·경고 SFX 등 전 이벤트 연결.
+
 ---
 
 ## 2. 아키텍처 / 진입점
 - 네임스페이스 `ShootingGame.[기능]` (Player/Weapon/Bullet/Enemy/Boss/Stage/Item/Core/UI/Effect), 에디터 `ShootingGame.EditorTools`.
 - 데이터 카드(SO): `WeaponData` `EnemyData` `FormationData` `BossData` `StageData` (모두 `ASTRA/...` CreateAssetMenu).
-- 씬 매니저 GO: `CollisionManager` `GameManager` `BulletPool` `EnemyPool` `DropManager` `StageBackground` `StageDirector` `HUD Canvas`. (`EnemySpawner`/`BossSpawner`는 비활성 — StageDirector가 구동)
+- 씬 매니저 GO: `CollisionManager` `GameManager` `BulletPool` `EnemyPool` `DropManager` `AudioManager` `EffectPool` `StageBackground` `StageDirector` `HUD Canvas`. `CameraShake`는 Main Camera에 부착. (`EnemySpawner`/`BossSpawner`는 비활성 — StageDirector가 구동)
 - 코드 위치: `Assets/Scripts/{Player,Weapon,Bullet,Enemy,Boss,Stage,Item,Core,UI,Effect,Editor}/`.
 - 콘텐츠 카드: `Assets/ScriptableObjects/{Weapons,Enemies,Formations,Bosses,Stages}/`.
 
@@ -59,10 +65,10 @@
 
 ## 4. 다음 구현 목표 (우선순위)
 
-### A. 체감/완성도 (★ 최우선 추천)
-- **A1 손맛(juice)**: 피격 플래시·격파 폭발 이펙트·화면 흔들림·히트스톱·머즐 플래시.
-- **A2 사운드**: SFX(발사/피격/폭발/픽업/봄) + BGM (§8).
-- **A3 UI 폴리시**: TMP 또는 **pixellab 픽셀 폰트**(`create_font`)로 HUD 교체, 타이틀/메뉴 화면.
+### A. 체감/완성도
+- ✅ **A1 손맛(juice)** 완료: 피격 플래시·격파 폭발·화면 흔들림. (히트스톱·머즐 플래시는 추가 여지)
+- ✅ **A2 사운드** 완료: 합성 SFX + 절차적 BGM. (실제 오디오 에셋/믹싱은 추후 고급화 여지)
+- **A3 UI 폴리시**(남음): TMP 또는 **pixellab 픽셀 폰트**(`create_font`)로 HUD 교체, 타이틀/메뉴 화면.
 
 ### B. 미구현 심화 (대표 구현으로 대체했던 것)
 - **B1 풀 타일맵 지형**(충돌·파괴 가능, 하이브리드 구간) §6.

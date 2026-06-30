@@ -97,7 +97,11 @@ namespace ShootingGame.Core
         public void NotifyBossSpawned(string name) => BossSpawned?.Invoke(name);
         public void NotifyBossHp(float ratio) => BossHpChanged?.Invoke(ratio);
         public void NotifyBossDefeated() => BossDefeated?.Invoke();
-        public void NotifyBossWarning() => BossWarning?.Invoke();
+        public void NotifyBossWarning()
+        {
+            if (AudioManager.Instance != null) AudioManager.Instance.Play("warn", 0.8f);
+            BossWarning?.Invoke();
+        }
         public void NotifyStageClear() => StageClear?.Invoke();
 
         void OnPlayerGameOver()
