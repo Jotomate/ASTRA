@@ -32,7 +32,7 @@
 - 드롭(P/W), 점수, **1UP(익스텐드)**, 게임오버/재시작, **멀티 스테이지 진행**.
 - `StageDirector` 스폰 타임라인(웨이브→경고→보스→클리어), 배경 **다중 스크롤(별필드 3층)**.
 - HUD: 점수/라이프/무기출력/무기명/봄/스테이지/GAME OVER/보스바/WARNING/STAGE CLEAR (legacy uGUI Text).
-- pixellab 실제 스프라이트: 기체·적기·보스 본체.
+- pixellab 실제 스프라이트: 기체·적기·보스 본체. **기체 좌/우 뱅킹**(`PlayerBank`: 이동 입력에 따라 BankL/BankR/중립 스프라이트 전환, pixellab `create_object_state`로 생성).
 - **5대 커스텀 에디터**(무기/적기/편대/보스/레벨) — 카드 목록·생성·삭제·편집.
 
 **사운드 / 손맛 (juice)**

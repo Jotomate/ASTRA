@@ -2157,6 +2157,7 @@ GameObject:
   - component: {fileID: 1090815408}
   - component: {fileID: 1090815414}
   - component: {fileID: 1090815415}
+  - component: {fileID: 1090815416}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -2319,6 +2320,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ShootingGame.Player.PlayerBlink
   blinkInterval: 0.09
   dimAlpha: 0.25
+--- !u!114 &1090815416
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1090815407}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c97a149ef1e593248ae75f9c6da9f6aa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ShootingGame.Player.PlayerBank
+  neutral: {fileID: -5934761212996482088, guid: 254c735dba5b02b4ea0f852bb7fbb69a, type: 3}
+  bankLeft: {fileID: -5173988286056363995, guid: c3dd65597f8933d4c90cd8fb12ac3bac, type: 3}
+  bankRight: {fileID: -2107244441238969744, guid: c931db57fc7eb02408d4645655f6d8f7, type: 3}
+  deadzone: 0.2
 --- !u!1 &1180301263
 GameObject:
   m_ObjectHideFlags: 0
