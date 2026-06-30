@@ -1,0 +1,42 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2ac6dbdf495ce314088aeb4a430841fe, type: 3}
+  m_Name: W06_LockOnLaser
+  m_EditorClassIdentifier: Assembly-CSharp::ShootingGame.Weapon.WeaponData
+  weaponName: Lock-On Laser
+  icon: {fileID: 0}
+  fireMode: 1
+  shotSpeed: 14
+  baseDamage: 1.1
+  damageDecay: 0
+  isPiercing: 1
+  spreadAngle: 14
+  bulletSprite: {fileID: 4808758905237674379, guid: 8aa7c6565c7847f4aa5bffeb0df7cef7, type: 3}
+  bulletColor: {r: 0.8, g: 0.4, b: 1, a: 1}
+  bulletRadius: 0.12
+  isReflecting: 0
+  maxBounces: 0
+  isHoming: 0
+  homingTurnRate: 300
+  spinRate: 0
+  isLockOn: 1
+  wayCount: 02000000030000000400000005000000
+  damageMul:
+  - 1
+  - 1.15
+  - 1.3
+  - 1.5
+  fireInterval:
+  - 0.18
+  - 0.16
+  - 0.14
+  - 0.12

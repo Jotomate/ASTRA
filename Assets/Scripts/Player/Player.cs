@@ -76,6 +76,7 @@ namespace ShootingGame.Player
                 CollisionManager.Instance.BlastRadius(transform.position, data.bombRadius, data.bombDamage);
             if (AudioManager.Instance != null) AudioManager.Instance.Play("bomb", 0.9f);
             if (CameraShake.Instance != null) CameraShake.Instance.Shake(0.6f, 0.5f);
+            if (GameManager.Instance != null) GameManager.Instance.HitStop(0.06f);
             if (EffectPool.Instance != null) EffectPool.Instance.Play(transform.position, 4f, new Color(0.7f, 0.95f, 1f, 1f));
         }
 
@@ -98,6 +99,7 @@ namespace ShootingGame.Player
 
             if (AudioManager.Instance != null) AudioManager.Instance.Play("death", 0.7f);
             if (CameraShake.Instance != null) CameraShake.Instance.Shake(0.4f, 0.4f);
+            if (GameManager.Instance != null) GameManager.Instance.HitStop(0.08f);
             if (EffectPool.Instance != null) EffectPool.Instance.Play(transform.position, 1.2f, new Color(0.6f, 0.9f, 1f, 1f));
 
             Lives--;

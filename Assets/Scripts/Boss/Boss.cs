@@ -237,6 +237,7 @@ namespace ShootingGame.Boss
             }
             if (CameraShake.Instance != null) CameraShake.Instance.Shake(0.5f, 0.6f);
             if (AudioManager.Instance != null) AudioManager.Instance.Play("bossexp", 0.9f);
+            if (GameManager.Instance != null) GameManager.Instance.HitStop(0.1f);
             if (EffectPool.Instance != null)
                 for (int i = 0; i < 6; i++)
                     EffectPool.Instance.Play(transform.position + (Vector3)(UnityEngine.Random.insideUnitCircle * 1.3f),

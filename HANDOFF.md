@@ -19,7 +19,7 @@
 
 **플레이어 / 무기**
 - 기체 이동(Transform+클램프), 무기-출력 Lv1~4(사망 시 리셋), 라이프, 부활 무적 점멸, 봄(화면 클리어).
-- 무기 6종: `W01_Vulcan` `W90_WideShot` `W02_Laser`(관통) `W08_Reflect`(벽 반사) `W03_LockShot`(유도) `W10_Omni`(전방위 회전).
+- 무기 7종: `W01_Vulcan` `W90_WideShot` `W02_Laser`(관통) `W08_Reflect`(벽 반사) `W03_LockShot`(유도) `W10_Omni`(전방위 회전) `W06_LockOnLaser`(다중 락온 유도 레이저).
 - 무기 픽업/즉시교체, **이탈(Eject)**=폭발+기본 복귀. 탄환 풀링(반사·유도 지원).
 
 **적 / 편대 / 보스**
@@ -69,7 +69,12 @@
 - ✅ **A1 손맛(juice)** 완료: 피격 플래시·격파 폭발·화면 흔들림. (히트스톱·머즐 플래시는 추가 여지)
 - ✅ **A2 사운드** 완료: 합성 SFX + 절차적 BGM. (실제 오디오 에셋/믹싱은 추후 고급화 여지)
 - ✅ **A3 게임 플로우** 완료: 타이틀 화면 + 상태머신(Title/Playing/Paused/GameOver) + 일시정지(ESC/P) + 재시작. `GameManager.IsPlaying`로 발사/이탈/봄 게이트, timeScale로 정지.
-- **A3+ UI 폴리시**(남음): TMP 또는 **pixellab 픽셀 폰트**(`create_font`)로 HUD 교체, 메뉴 정교화.
+- ✅ **A5 히트스톱** 완료: 보스사망/봄/피탄 시 `GameManager.HitStop(초)` 짧은 정지.
+- **A4 UI 폴리시**(남음): HUD가 빌트인 폰트(legacy uGUI Text) — 픽셀 TTF/TMP 또는 pixellab `create_font` 필요(폰트 에셋 파이프라인 작업). **머즐 플래시·콤보 팝업·화면 플래시**도 남은 폴리시.
+
+### B. 미구현 심화
+- ✅ **B4 W06 록온레이저** 완료: `CollisionManager.FindNearestTargets`로 다중 락온 → 각 적에 유도 레이저(`WeaponController.FireLockOn`, `Bullet.lockTarget`).
+- 남음: **B3 편대 snake/리더흩어짐**, **B1 풀 타일맵 지형**, **B2 보스 합체/촉수/다관절**.
 
 ### B. 미구현 심화 (대표 구현으로 대체했던 것)
 - **B1 풀 타일맵 지형**(충돌·파괴 가능, 하이브리드 구간) §6.

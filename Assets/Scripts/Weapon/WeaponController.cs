@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 using ShootingGame.Player;
 using ShootingGame.Bullet;
@@ -110,6 +111,8 @@ namespace ShootingGame.Weapon
             float dmg = Current.GetDamage(level);
             Vector2 origin = muzzle != null ? (Vector2)muzzle.position : (Vector2)transform.position;
 
+            if (Current.isLockOn) { FireLockOn(poolInst, origin, ways, dmg); return; }
+
             float baseAngle = 90f + spinAngle;   // 위쪽 + 전방위 회전
             float half = Current.spreadAngle * 0.5f;
             for (int i = 0; i < ways; i++)
@@ -130,6 +133,33 @@ namespace ShootingGame.Weapon
 
             if (Current.spinRate != 0f)
                 spinAngle = Mathf.Repeat(spinAngle + Current.spinRate, 360f);
+        }
+
+        readonly List<Transform> lockBuf = new List<Transform>(8);
+
+        /// <summary>록온: 가까운 적 다수를 잡아 각각에 유도 레이저 발사. 대상 없으면 부채꼴 유도탄.</summary>
+        void FireLockOn(BulletPool pool, Vector2 origin, int count, float dmg)
+        {
+            if (CollisionManager.Instance != null) CollisionManager.Instance.FindNearestTargets(origin, count, lockBuf);
+            else lockBuf.Clear();
+
+            for (int i = 0; i < count; i++)
+            {
+                Transform target = lockBuf.Count > 0 ? lockBuf[i % lockBuf.Count] : null;
+                Vector2 dir = target != null
+                    ? ((Vector2)target.position - origin).normalized
+                    : AngleDir(count > 1 ? 90f - 20f + 40f * i / (count - 1) : 90f);
+                var b = pool.Get();
+                b.Launch(origin, dir * Current.shotSpeed, dmg, Current.bulletRadius, true, Current.isPiercing,
+                         Current.bulletColor, Current.bulletSprite, Current.isReflecting, Current.maxBounces,
+                         true, Current.homingTurnRate, target);
+            }
+        }
+
+        static Vector2 AngleDir(float deg)
+        {
+            float r = deg * Mathf.Deg2Rad;
+            return new Vector2(Mathf.Cos(r), Mathf.Sin(r));
         }
     }
 }

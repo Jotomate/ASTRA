@@ -23,6 +23,7 @@ namespace ShootingGame.Core
         [Tooltip("이 점수마다 1UP(익스텐드)")]
         [SerializeField] int extendScoreInterval = 30000;
         int nextExtend;
+        float hitstopTimer;
 
         public event Action<int> ScoreChanged;
         public event Action<GameState> StateChanged;
@@ -74,8 +75,22 @@ namespace ShootingGame.Core
             if (player != null) player.GameOver += OnPlayerGameOver;
         }
 
+        /// <summary>타격 순간 짧은 정지(히트스톱). Playing 중에만.</summary>
+        public void HitStop(float seconds)
+        {
+            if (State == GameState.Playing) hitstopTimer = Mathf.Max(hitstopTimer, seconds);
+        }
+
         void Update()
         {
+            if (hitstopTimer > 0f)
+            {
+                hitstopTimer -= Time.unscaledDeltaTime;
+                Time.timeScale = 0f;
+                if (hitstopTimer <= 0f) Time.timeScale = State == GameState.Playing ? 1f : 0f;
+                return;
+            }
+
             switch (State)
             {
                 case GameState.Title:

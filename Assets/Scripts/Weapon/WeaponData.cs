@@ -46,6 +46,8 @@ namespace ShootingGame.Weapon
         public float homingTurnRate = 240f;
         [Tooltip("전방위샷: 발사 기준각이 매 발사마다 회전(도). 0이면 정면 고정")]
         public float spinRate = 0f;
+        [Tooltip("록온: 주변 적 다수를 잡아 각각에 유도탄 발사(wayCount=동시 락온 수)")]
+        public bool isLockOn = false;
 
         [Header("무기-출력 강화 곡선 (Lv.1~4)")]
         [Tooltip("동시 발사 수")]

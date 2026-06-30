@@ -154,6 +154,24 @@ namespace ShootingGame.Core
             return best;
         }
 
+        static readonly List<KeyValuePair<float, Transform>> _buf = new List<KeyValuePair<float, Transform>>();
+
+        /// <summary>가까운 순으로 최대 max개 대상을 results에 채운다(록온용).</summary>
+        public void FindNearestTargets(Vector2 from, int max, List<Transform> results)
+        {
+            results.Clear();
+            _buf.Clear();
+            for (int i = 0; i < targets.Count; i++)
+            {
+                var t = targets[i];
+                if (t == null || t.IsDead) continue;
+                _buf.Add(new KeyValuePair<float, Transform>(((Vector2)t.Transform.position - from).sqrMagnitude, t.Transform));
+            }
+            _buf.Sort((a, b) => a.Key.CompareTo(b.Key));
+            int n = Mathf.Min(max, _buf.Count);
+            for (int i = 0; i < n; i++) results.Add(_buf[i].Value);
+        }
+
         static bool Overlap(Vector2 a, float ar, Vector2 b, float br)
         {
             float r = ar + br;

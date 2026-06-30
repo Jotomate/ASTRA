@@ -21,6 +21,7 @@ namespace ShootingGame.Bullet
         bool homing;
         float homingTurn;
         float speed;
+        Transform lockTarget;
 
         BulletPool pool;
         SpriteRenderer sr;
@@ -45,7 +46,8 @@ namespace ShootingGame.Bullet
         public void Launch(Vector2 position, Vector2 vel, float dmg, float rad,
                            bool playerBullet, bool pierce, Color color, Sprite sprite,
                            bool doReflect = false, int maxBounces = 0,
-                           bool doHoming = false, float homingTurnRate = 0f)
+                           bool doHoming = false, float homingTurnRate = 0f,
+                           Transform homingTarget = null)
         {
             transform.position = position;
             velocity = vel;
@@ -58,6 +60,7 @@ namespace ShootingGame.Bullet
             bouncesLeft = maxBounces;
             homing = doHoming;
             homingTurn = homingTurnRate;
+            lockTarget = homingTarget;
 
             if (sr == null) sr = GetComponent<SpriteRenderer>();
             sr.sprite = sprite != null ? sprite : defaultSprite;
@@ -71,9 +74,11 @@ namespace ShootingGame.Bullet
 
             if (homing && speed > 0f)
             {
-                var target = CollisionManager.Instance != null
-                    ? CollisionManager.Instance.FindNearestTarget(transform.position, isPlayerBullet)
-                    : null;
+                var target = lockTarget != null
+                    ? lockTarget
+                    : (CollisionManager.Instance != null
+                        ? CollisionManager.Instance.FindNearestTarget(transform.position, isPlayerBullet)
+                        : null);
                 if (target != null)
                 {
                     Vector2 want = ((Vector2)target.position - (Vector2)transform.position).normalized;
