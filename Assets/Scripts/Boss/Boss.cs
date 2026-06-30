@@ -232,7 +232,7 @@ namespace ShootingGame.Boss
 
             if (GameManager.Instance != null)
             {
-                GameManager.Instance.AddScore(data.score);
+                GameManager.Instance.AddKillScore(data.score);
                 GameManager.Instance.NotifyBossDefeated();
             }
             if (CameraShake.Instance != null) CameraShake.Instance.Shake(0.5f, 0.6f);

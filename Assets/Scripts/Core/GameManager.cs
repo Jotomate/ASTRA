@@ -17,6 +17,12 @@ namespace ShootingGame.Core
 
         public int Score { get; private set; }
         public int Stage { get; private set; } = 1;
+        public int Combo { get; private set; }
+        public int ComboMultiplier => Mathf.Clamp(1 + Combo / 5, 1, 8);
+
+        [Tooltip("이 시간(초) 안에 추가 처치가 없으면 콤보 리셋")]
+        [SerializeField] float comboWindow = 2.5f;
+        float comboTimer;
         public GameState State { get; private set; } = GameState.Title;
         public bool IsPlaying => State == GameState.Playing;
 
@@ -27,6 +33,7 @@ namespace ShootingGame.Core
 
         public event Action<int> ScoreChanged;
         public event Action<GameState> StateChanged;
+        public event Action<int, int> ComboChanged;   // 콤보 수, 배율
 
         // 보스 HUD 연동(보스 타입에 의존하지 않도록 이벤트로 통지)
         public event Action<string> BossSpawned;
@@ -106,6 +113,12 @@ namespace ShootingGame.Core
                     if (RestartPressed()) Restart();
                     break;
             }
+
+            if (State == GameState.Playing && Combo > 0)
+            {
+                comboTimer -= Time.deltaTime;
+                if (comboTimer <= 0f) ResetCombo();
+            }
         }
 
         public void AddScore(int amount)
@@ -121,6 +134,23 @@ namespace ShootingGame.Core
                 if (player != null) player.AddLife(1);
                 nextExtend += extendScoreInterval;
             }
+        }
+
+        /// <summary>적 처치 점수(콤보 배율 적용). 처치 이벤트에서 호출.</summary>
+        public void AddKillScore(int baseScore)
+        {
+            Combo++;
+            comboTimer = comboWindow;
+            AddScore(baseScore * ComboMultiplier);
+            ComboChanged?.Invoke(Combo, ComboMultiplier);
+        }
+
+        public void ResetCombo()
+        {
+            if (Combo == 0) return;
+            Combo = 0;
+            comboTimer = 0f;
+            ComboChanged?.Invoke(0, 1);
         }
 
         /// <summary>다음 스테이지로(멀티 스테이지 진행).</summary>

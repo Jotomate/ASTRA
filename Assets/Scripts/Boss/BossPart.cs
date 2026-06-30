@@ -80,7 +80,7 @@ namespace ShootingGame.Boss
         {
             dead = true;
             if (CollisionManager.Instance != null) CollisionManager.Instance.UnregisterTarget(this);
-            if (GameManager.Instance != null) GameManager.Instance.AddScore(def.score);
+            if (GameManager.Instance != null) GameManager.Instance.AddKillScore(def.score);
             Destroyed?.Invoke(this);
             gameObject.SetActive(false);
         }

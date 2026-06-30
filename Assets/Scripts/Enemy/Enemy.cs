@@ -170,7 +170,7 @@ namespace ShootingGame.Enemy
         {
             state = EnemyState.Dead;
             Vector3 pos = transform.position;
-            if (GameManager.Instance != null) GameManager.Instance.AddScore(data.score);
+            if (GameManager.Instance != null) GameManager.Instance.AddKillScore(data.score);
             if (DropManager.Instance != null) DropManager.Instance.SpawnDrop(data, pos);
             if (EffectPool.Instance != null) EffectPool.Instance.Play(pos, 0.7f, new Color(1f, 0.7f, 0.3f, 1f));
             if (AudioManager.Instance != null) AudioManager.Instance.Play("explosion", 0.55f);

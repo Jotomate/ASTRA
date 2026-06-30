@@ -102,6 +102,8 @@ namespace ShootingGame.Player
             if (GameManager.Instance != null) GameManager.Instance.HitStop(0.08f);
             if (EffectPool.Instance != null) EffectPool.Instance.Play(transform.position, 1.2f, new Color(0.6f, 0.9f, 1f, 1f));
 
+            if (GameManager.Instance != null) GameManager.Instance.ResetCombo();
+
             Lives--;
             LivesChanged?.Invoke(Lives);
 

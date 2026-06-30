@@ -29,7 +29,7 @@
 
 **시스템 / 연출**
 - 중앙 충돌 `CollisionManager`(원-원, `IDamageable` 일반화: 자기탄→대상 / 적탄→기체 / 본체→기체 / AoE).
-- 드롭(P/W), 점수, **1UP(익스텐드)**, 게임오버/재시작, **멀티 스테이지 진행**.
+- 드롭(P/W), 점수, **콤보 배율 스코어링**(연속 처치 → ×1~8, 시간초과/피탄 시 리셋), **1UP(익스텐드)**, 게임오버/재시작, **멀티 스테이지 진행**.
 - `StageDirector` 스폰 타임라인(웨이브→경고→보스→클리어), 배경 **다중 스크롤(별필드 3층)**.
 - HUD: 점수/라이프/무기출력/무기명/봄/스테이지/GAME OVER/보스바/WARNING/STAGE CLEAR (legacy uGUI Text).
 - pixellab 실제 스프라이트: 기체·적기·보스 본체. **기체 좌/우 뱅킹**(`PlayerBank`: 이동 입력에 따라 BankL/BankR/중립 스프라이트 전환, pixellab `create_object_state`로 생성).

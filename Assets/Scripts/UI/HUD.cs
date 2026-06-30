@@ -15,6 +15,7 @@ namespace ShootingGame.UI
     {
         [SerializeField] Text livesText;
         [SerializeField] Text scoreText;
+        [SerializeField] Text comboText;
         [SerializeField] Text powerText;
         [SerializeField] Text weaponText;
         [SerializeField] Text bombText;
@@ -72,9 +73,11 @@ namespace ShootingGame.UI
                 GameManager.Instance.BossWarning += OnBossWarning;
                 GameManager.Instance.StageClear += OnStageClear;
                 GameManager.Instance.StageChanged += OnStageChanged;
+                GameManager.Instance.ComboChanged += OnCombo;
                 OnScore(GameManager.Instance.Score);
                 OnState(GameManager.Instance.State);
                 OnStageChanged(GameManager.Instance.Stage);
+                OnCombo(0, 1);
             }
             if (bossBar != null) bossBar.SetActive(false);
             if (warningText != null) warningText.gameObject.SetActive(false);
@@ -106,10 +109,18 @@ namespace ShootingGame.UI
                 GameManager.Instance.BossWarning -= OnBossWarning;
                 GameManager.Instance.StageClear -= OnStageClear;
                 GameManager.Instance.StageChanged -= OnStageChanged;
+                GameManager.Instance.ComboChanged -= OnCombo;
             }
         }
 
         void OnBombs(int v) { if (bombText != null) bombText.text = "BOMB  x" + v; }
+
+        void OnCombo(int combo, int mult)
+        {
+            if (comboText == null) return;
+            if (combo >= 2) { comboText.text = combo + " COMBO  x" + mult; comboText.enabled = true; }
+            else comboText.enabled = false;
+        }
 
         void OnStageChanged(int n)
         {
