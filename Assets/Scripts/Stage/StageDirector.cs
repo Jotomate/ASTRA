@@ -118,10 +118,10 @@ namespace ShootingGame.Stage
                 var e = EnemyPool.Instance.Spawn(f.enemyData, new Vector3(baseX + off.x, topY + off.y, 0f));
                 if (e != null) spawned.Add(e);
             }
-            if (f.wipeBonus && spawned.Count > 0)
+            if (spawned.Count > 0 && (f.wipeBonus || f.leaderBreakScatter))
             {
                 var go = new GameObject("FormationGroup");
-                go.AddComponent<FormationGroup>().Init(spawned, f.count * 200);
+                go.AddComponent<FormationGroup>().Init(spawned, f.wipeBonus ? f.count * 200 : 0, f.leaderBreakScatter);
             }
         }
 

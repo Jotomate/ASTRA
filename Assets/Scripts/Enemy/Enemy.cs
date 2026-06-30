@@ -24,6 +24,8 @@ namespace ShootingGame.Enemy
         float appearTimer;
         float fireTimer;
         float flashTimer;
+        bool scattering;
+        Vector2 scatterDir;
         Vector2 facing = Vector2.down;
         Vector2 spawnOrigin;
         int pathIndex;
@@ -55,6 +57,7 @@ namespace ShootingGame.Enemy
             facing = Vector2.down;
             spawnOrigin = position;
             pathIndex = 0;
+            scattering = false;
             OnKilled = null;   // 풀 재사용 시 이전 구독 제거
 
             if (d.sprite != null) sr.sprite = d.sprite;
@@ -90,9 +93,23 @@ namespace ShootingGame.Enemy
             }
         }
 
+        /// <summary>편대 리더 격파 시 흩어짐: moveType 무시하고 지정 방향으로 이탈. (§5.8)</summary>
+        public void Scatter(Vector2 dir)
+        {
+            if (state == EnemyState.Dead) return;
+            scattering = true;
+            scatterDir = dir.sqrMagnitude > 0.0001f ? dir.normalized : Vector2.down;
+        }
+
         void Move(float dt)
         {
             Vector2 pos = transform.position;
+            if (scattering)
+            {
+                pos += scatterDir * (data.moveSpeed * 1.7f * dt);
+                transform.position = pos;
+                return;
+            }
             switch (data.moveType)
             {
                 case EnemyMoveType.Homing:

@@ -14,17 +14,41 @@ namespace ShootingGame.Enemy
         int total, killed, bonus;
         bool done;
         float life;
+        Enemy leader;
+        bool scatterOnLeaderDeath;
 
-        public void Init(List<Enemy> spawned, int bonusScore)
+        public void Init(List<Enemy> spawned, int bonusScore, bool leaderScatter)
         {
             members.AddRange(spawned);
             total = members.Count;
             bonus = bonusScore;
+            scatterOnLeaderDeath = leaderScatter;
+            if (members.Count > 0) leader = members[0];
             foreach (var e in members)
                 if (e != null) e.OnKilled += OnMemberKilled;
         }
 
-        void OnMemberKilled(Enemy e) => killed++;
+        void OnMemberKilled(Enemy e)
+        {
+            killed++;
+            if (scatterOnLeaderDeath && e == leader) ScatterRest();
+        }
+
+        void ScatterRest()
+        {
+            Vector2 center = Vector2.zero;
+            int alive = 0;
+            foreach (var m in members)
+                if (m != null && m.gameObject.activeSelf && !m.IsDead) { center += (Vector2)m.transform.position; alive++; }
+            if (alive > 0) center /= alive;
+            foreach (var m in members)
+            {
+                if (m == null || m == leader || !m.gameObject.activeSelf || m.IsDead) continue;
+                Vector2 d = (Vector2)m.transform.position - center;
+                if (d.sqrMagnitude < 0.01f) d = Random.insideUnitCircle;
+                m.Scatter(d);
+            }
+        }
 
         void Update()
         {
