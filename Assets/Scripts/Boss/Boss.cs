@@ -80,7 +80,7 @@ namespace ShootingGame.Boss
                     tg.AddComponent<BossTentacle>().Setup(transform,
                         new Vector3(side * d.bodyScale * 0.55f, -0.3f, 0f),
                         d.tentacleSegments, 0.4f, d.tentacleReach, d.tentacleSpeed,
-                        d.tentacleSprite, mat, new Color(0.85f, 0.35f, 0.95f, 1f));
+                        d.tentacleSprite, mat, new Color(0.85f, 0.35f, 0.95f, 1f), i * 1.5f);
                 }
             }
 
