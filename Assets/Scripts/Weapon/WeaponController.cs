@@ -48,6 +48,8 @@ namespace ShootingGame.Weapon
 
         void Update()
         {
+            if (GameManager.Instance != null && !GameManager.Instance.IsPlaying) return;
+
             if (cooldown > 0f) cooldown -= Time.deltaTime;
 
             if (input.EjectPressed)

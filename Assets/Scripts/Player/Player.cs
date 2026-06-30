@@ -52,7 +52,8 @@ namespace ShootingGame.Player
             if (invulnTimer > 0f)
                 invulnTimer -= Time.deltaTime;
 
-            if (input != null && input.BombPressed)
+            if (input != null && input.BombPressed
+                && (GameManager.Instance == null || GameManager.Instance.IsPlaying))
                 UseBomb();
         }
 

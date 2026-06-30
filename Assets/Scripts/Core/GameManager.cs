@@ -6,7 +6,7 @@ using PlayerShip = ShootingGame.Player.Player;
 
 namespace ShootingGame.Core
 {
-    public enum GameState { Playing, GameOver }
+    public enum GameState { Title, Playing, Paused, GameOver }
 
     /// <summary>
     /// 게임 전역 상태: 점수 + 플레이/게임오버 흐름. 추후 난이도·플로우 등 §7 확장 지점.
@@ -17,7 +17,8 @@ namespace ShootingGame.Core
 
         public int Score { get; private set; }
         public int Stage { get; private set; } = 1;
-        public GameState State { get; private set; } = GameState.Playing;
+        public GameState State { get; private set; } = GameState.Title;
+        public bool IsPlaying => State == GameState.Playing;
 
         [Tooltip("이 점수마다 1UP(익스텐드)")]
         [SerializeField] int extendScoreInterval = 30000;
@@ -42,7 +43,6 @@ namespace ShootingGame.Core
         {
             if (Instance != null && Instance != this) { Destroy(gameObject); return; }
             Instance = this;
-            Time.timeScale = 1f;   // 재시작 시 복구
             nextExtend = extendScoreInterval;
         }
 
@@ -55,6 +55,14 @@ namespace ShootingGame.Core
         void Start()
         {
             EnsurePlayer();
+            SetState(GameState.Title);   // 타이틀에서 시작(게임 정지)
+        }
+
+        void SetState(GameState s)
+        {
+            State = s;
+            Time.timeScale = s == GameState.Playing ? 1f : 0f;
+            StateChanged?.Invoke(s);
         }
 
         void EnsurePlayer()
@@ -68,8 +76,21 @@ namespace ShootingGame.Core
 
         void Update()
         {
-            if (State == GameState.GameOver && RestartPressed())
-                Restart();
+            switch (State)
+            {
+                case GameState.Title:
+                    if (StartPressed()) SetState(GameState.Playing);
+                    break;
+                case GameState.Playing:
+                    if (PausePressed()) SetState(GameState.Paused);
+                    break;
+                case GameState.Paused:
+                    if (PausePressed()) SetState(GameState.Playing);
+                    break;
+                case GameState.GameOver:
+                    if (RestartPressed()) Restart();
+                    break;
+            }
         }
 
         public void AddScore(int amount)
@@ -107,9 +128,7 @@ namespace ShootingGame.Core
         void OnPlayerGameOver()
         {
             if (State == GameState.GameOver) return;
-            State = GameState.GameOver;
-            Time.timeScale = 0f;          // 화면 정지
-            StateChanged?.Invoke(State);
+            SetState(GameState.GameOver);   // 화면 정지
         }
 
         void Restart()
@@ -122,6 +141,24 @@ namespace ShootingGame.Core
         {
             bool key = Keyboard.current != null && Keyboard.current.rKey.wasPressedThisFrame;
             bool pad = Gamepad.current != null && Gamepad.current.startButton.wasPressedThisFrame;
+            return key || pad;
+        }
+
+        static bool StartPressed()
+        {
+            var k = Keyboard.current;
+            bool key = k != null && (k.zKey.wasPressedThisFrame || k.spaceKey.wasPressedThisFrame || k.enterKey.wasPressedThisFrame);
+            var g = Gamepad.current;
+            bool pad = g != null && (g.buttonSouth.wasPressedThisFrame || g.startButton.wasPressedThisFrame);
+            return key || pad;
+        }
+
+        static bool PausePressed()
+        {
+            var k = Keyboard.current;
+            bool key = k != null && (k.escapeKey.wasPressedThisFrame || k.pKey.wasPressedThisFrame);
+            var g = Gamepad.current;
+            bool pad = g != null && g.startButton.wasPressedThisFrame;
             return key || pad;
         }
     }

@@ -20,6 +20,10 @@ namespace ShootingGame.UI
         [SerializeField] Text bombText;
         [SerializeField] Text gameOverText;
 
+        [Header("화면")]
+        [SerializeField] GameObject titleRoot;
+        [SerializeField] Text pausedText;
+
         [Header("보스")]
         [SerializeField] GameObject bossBar;
         [SerializeField] Image bossFill;
@@ -126,8 +130,9 @@ namespace ShootingGame.UI
 
         void OnState(GameState s)
         {
-            if (gameOverText != null)
-                gameOverText.gameObject.SetActive(s == GameState.GameOver);
+            if (titleRoot != null) titleRoot.SetActive(s == GameState.Title);
+            if (pausedText != null) pausedText.gameObject.SetActive(s == GameState.Paused);
+            if (gameOverText != null) gameOverText.gameObject.SetActive(s == GameState.GameOver);
         }
 
         void OnBossSpawned(string name)
