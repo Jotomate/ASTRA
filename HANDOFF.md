@@ -75,10 +75,9 @@
 ### B. 미구현 심화
 - ✅ **B4 W06 록온레이저** 완료: `CollisionManager.FindNearestTargets`로 다중 락온 → 각 적에 유도 레이저(`WeaponController.FireLockOn`, `Bullet.lockTarget`).
 - ✅ **B3 leaderBreakScatter** 완료: 편대 리더(members[0]) 격파 시 나머지 흩어짐(`Enemy.Scatter`, `FormationGroup.ScatterRest`). FormationData 3기능(wipe/scatter/leadPath) 중 2개 완료.
-- 남음(대형, 별도 세션 권장):
-  - **B3+ 편대 선두추적(snake)**: leadPath 링버퍼로 후미가 선두 궤적 추종.
-  - **B1 풀 타일맵 지형**: 충돌·파괴 가능 지형 + 지형 의존 무기 + 고정포 배치(타일맵 서브시스템).
-  - **B2 보스 합체/촉수/다관절 IK**: 분리→합체, 촉수 유도, 관절 역운동학.
+- ✅ **B1 지형(대표)**: `TerrainBlock`(IDamageable) 파괴 가능 스크롤 지형 블록 — 자기탄 차단·기체 접촉 피해. `SpawnKind.Terrain`으로 타임라인 배치. (풀 타일맵 네비/이동차단은 후속)
+- ✅ **B2 촉수(대표)**: `BossTentacle` FABRIK 분절 체인이 플레이어 추적·접촉 피해. BossData `useTentacles`로 보스에 부착(B01 활성). (분리→합체, 완전 다관절 IK 무기화는 후속)
+- 남음(대형, 별도 세션): **B3+ 편대 snake(leadPath 링버퍼)**, **B1+ 풀 타일맵 네비게이션/이동차단**, **B2+ 보스 합체·관절 IK**.
 
 ### B. 미구현 심화 (대표 구현으로 대체했던 것)
 - **B1 풀 타일맵 지형**(충돌·파괴 가능, 하이브리드 구간) §6.

@@ -71,6 +71,19 @@ namespace ShootingGame.Boss
                 }
             }
 
+            if (d.useTentacles && d.tentacleSprite != null)
+            {
+                for (int i = 0; i < d.tentacleCount; i++)
+                {
+                    float side = (i % 2 == 0) ? -1f : 1f;
+                    var tg = new GameObject("Tentacle" + i);
+                    tg.AddComponent<BossTentacle>().Setup(transform,
+                        new Vector3(side * d.bodyScale * 0.55f, -0.3f, 0f),
+                        d.tentacleSegments, 0.4f, d.tentacleReach, d.tentacleSpeed,
+                        d.tentacleSprite, mat, new Color(0.85f, 0.35f, 0.95f, 1f));
+                }
+            }
+
             if (CollisionManager.Instance != null) CollisionManager.Instance.RegisterTarget(this);
             if (GameManager.Instance != null) GameManager.Instance.NotifyBossSpawned(d.bossName);
         }

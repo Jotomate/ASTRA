@@ -89,6 +89,14 @@ namespace ShootingGame.Boss
         public ShootingGame.Enemy.EnemyData separatedEnemy;
         public int separatedCount = 4;
 
+        [Header("기믹 — 촉수 (§5.14)")]
+        public bool useTentacles = false;
+        public Sprite tentacleSprite;
+        public int tentacleCount = 2;
+        public int tentacleSegments = 6;
+        public float tentacleReach = 4f;
+        public float tentacleSpeed = 4f;
+
         public BossPartDef[] parts;
         [Tooltip("hpThreshold 내림차순(1.0 → 낮게)으로 정의")]
         public BossPhaseDef[] phases;

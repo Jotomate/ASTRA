@@ -18,6 +18,8 @@ namespace ShootingGame.Stage
         [Tooltip("보스 본체 Unlit 머티리얼")]
         [SerializeField] Material spriteMaterial;
         [SerializeField] float spawnTopMargin = 0.6f;
+        [Tooltip("지형 블록 스프라이트")]
+        [SerializeField] Sprite terrainSprite;
 
         [Header("멀티 스테이지")]
         [Tooltip("클리어 후 진행할 다음 스테이지(없으면 loop에 따라 현재 반복)")]
@@ -104,7 +106,21 @@ namespace ShootingGame.Stage
                 case SpawnKind.Boss:
                     SpawnBoss(e.boss);
                     break;
+
+                case SpawnKind.Terrain:
+                    SpawnTerrain(e.spawnX);
+                    break;
             }
+        }
+
+        void SpawnTerrain(float x)
+        {
+            if (terrainSprite == null) return;
+            var go = new GameObject("Terrain");
+            go.transform.position = new Vector3(x, TopY, 0f);
+            var tb = go.AddComponent<TerrainBlock>();
+            float scroll = stage != null ? stage.baseScrollSpeed : 2.5f;
+            tb.Setup(8f, 0.8f, scroll, terrainSprite, new Color(0.55f, 0.5f, 0.45f, 1f), spriteMaterial);
         }
 
         void SpawnFormation(FormationData f, float baseX)

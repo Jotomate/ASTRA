@@ -102,3 +102,19 @@ MonoBehaviour:
     boss: {fileID: 11400000, guid: 611129e12e72e0c49ba216427e68ba46, type: 2}
     spawnX: 0
     spawnXJitter: 0
+  - label: Terrain
+    time: 4
+    kind: 4
+    enemy: {fileID: 0}
+    formation: {fileID: 0}
+    boss: {fileID: 0}
+    spawnX: -3
+    spawnXJitter: 0
+  - label: Terrain
+    time: 8
+    kind: 4
+    enemy: {fileID: 0}
+    formation: {fileID: 0}
+    boss: {fileID: 0}
+    spawnX: 3
+    spawnXJitter: 0

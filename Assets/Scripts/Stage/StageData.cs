@@ -16,7 +16,7 @@ namespace ShootingGame.Stage
     }
 
     /// <summary>스폰 이벤트 종류.</summary>
-    public enum SpawnKind { Enemy, Formation, BossWarning, Boss }
+    public enum SpawnKind { Enemy, Formation, BossWarning, Boss, Terrain }
 
     /// <summary>스폰 타임라인의 1개 이벤트 (거리/시간 트리거 → 적/편대/보스). (§6.1)</summary>
     [System.Serializable]
