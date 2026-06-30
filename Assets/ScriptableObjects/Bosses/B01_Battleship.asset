@@ -32,9 +32,9 @@ MonoBehaviour:
   useTentacles: 1
   tentacleSprite: {fileID: 1644149685158731502, guid: f3b495476d3b4c54d81d025f1b6a7be7, type: 3}
   tentacleCount: 2
-  tentacleSegments: 7
-  tentacleReach: 4.5
-  tentacleSpeed: 4.5
+  tentacleSegments: 25
+  tentacleReach: 10
+  tentacleSpeed: 6
   parts:
   - name: Cannon1
     sprite: {fileID: -3190599381928712351, guid: 1d9ca2bfb5f447f408128ca6a136365c, type: 3}

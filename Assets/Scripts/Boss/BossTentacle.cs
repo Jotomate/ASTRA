@@ -24,9 +24,8 @@ namespace ShootingGame.Boss
         TState st;
         float stTimer, phase;
 
-        const float IDLE = 1.8f, WINDUP = 0.5f, STRIKE = 0.2f, RECOVER = 0.6f;
-        const float SWAY_AMP = 0.75f, SWAY_SPEED = 2.4f;
-        const float STRIKE_SPEED = 20f, WINDUP_SPEED = 7f, RECOVER_SPEED = 5f;
+        const float IDLE = 1.8f, WINDUP = 0.5f, STRIKE = 0.25f, RECOVER = 0.6f;
+        const float SWAY_AMP = 0.9f, SWAY_SPEED = 2.4f;
 
         public void Setup(Transform bossT, Vector3 worldOffset, int segments, float spacing,
                           float reach, float speed, Sprite sprite, Material mat, Color color, float phaseOffset)
@@ -71,7 +70,7 @@ namespace ShootingGame.Boss
             stTimer -= dt;
             Vector3 desired = hang;
             Color tint = baseColor;
-            float sp = speed * 1.5f;
+            float sp = reach;   // 속도를 길이(reach)에 비례시켜 길어져도 끝까지 닿게
 
             switch (st)
             {
@@ -90,20 +89,20 @@ namespace ShootingGame.Boss
                 case TState.Windup:
                     desired = Vector3.Lerp(root, hang, 0.2f);   // 코일(움츠림)
                     tint = Color.Lerp(baseColor, new Color(1f, 0.5f, 0.2f), 0.8f);   // 주황 예고
-                    sp = WINDUP_SPEED;
+                    sp = reach * 0.8f;
                     if (stTimer <= 0f) { st = TState.Strike; stTimer = STRIKE; }
                     break;
 
                 case TState.Strike:
                     desired = strikeTarget;                      // 빠른 타격
                     tint = new Color(1f, 0.85f, 0.95f);
-                    sp = STRIKE_SPEED;
+                    sp = reach / STRIKE;                          // 타격 창 안에 전체 길이 연장
                     if (stTimer <= 0f) { st = TState.Recover; stTimer = RECOVER; }
                     break;
 
                 case TState.Recover:
                     desired = hang;
-                    sp = RECOVER_SPEED;
+                    sp = reach / RECOVER;
                     if (stTimer <= 0f) { st = TState.Idle; stTimer = IDLE; }
                     break;
             }
