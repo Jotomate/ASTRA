@@ -2,7 +2,7 @@
 
 > **매 세션 시작 시 이 문서를 먼저 읽고** 진행 현황·다음 할 일을 파악한다.
 > 설계 근거는 `./GDD.md`, 구현 규칙은 `./CLAUDE.md`. 본 문서는 **"지금까지 만든 것 + 다음에 할 것 + 함정"** 요약.
-> 최종 갱신: 2026-07-01 (차지 모드 코드 작성 — Unity 검증 대기)
+> 최종 갱신: 2026-07-01 (차지샷 검증완료 · 마우스 좌클릭 발사 · 동체 롤 뱅킹 아트 · A4 연출(머즐/콤보/화면 플래시) · 픽셀 폰트 · Player 컴포넌트 중복 제거 · **Stage2 보스 B02 추가** — 모두 구현·플레이 검증·커밋·푸시 완료)
 
 ---
 
@@ -32,7 +32,7 @@
 - 중앙 충돌 `CollisionManager`(원-원, `IDamageable` 일반화: 자기탄→대상 / 적탄→기체 / 본체→기체 / AoE).
 - 드롭(P/W), 점수, **콤보 배율 스코어링**(연속 처치 → ×1~8, 시간초과/피탄 시 리셋), **1UP(익스텐드)**, 게임오버/재시작, **멀티 스테이지 진행**.
 - `StageDirector` 스폰 타임라인(웨이브→경고→보스→클리어), 배경 **다중 스크롤(별필드 3층)**, **지형 블록**(`TerrainBlock`, 파괴가능·탄차단·접촉피해, `SpawnKind.Terrain`).
-- HUD: 점수/**콤보**/라이프/무기출력/무기명/봄/스테이지 · **타이틀**/**PAUSED**/GAME OVER/보스바/WARNING/STAGE CLEAR (legacy uGUI Text).
+- HUD: 점수/**콤보**/라이프/무기출력/무기명/봄/스테이지 · **타이틀**/**PAUSED**/GAME OVER/보스바/WARNING/STAGE CLEAR · **차지 게이지** (uGUI Text, **픽셀 폰트 `AstraPixel.ttf`**).
 - pixellab 실제 스프라이트: 기체·적기·보스 본체. **기체 좌/우 뱅킹**(`PlayerBank`: 이동 입력에 따라 BankL/BankR/중립 스프라이트 전환). **뱅킹 아트 = 동체 전체 롤(roll)** — 기수는 위 고정, 동체 전체가 좌/우로 기욺(기수만 도는 yaw 아님). pixellab `create_object_state`로 base player에서 재생성, 기존 `PlayerShip_BankL/R.png` 덮어씀(참조 유지).
 - **5대 커스텀 에디터**(무기/적기/편대/보스/레벨) — 카드 목록·생성·삭제·편집.
 
@@ -41,6 +41,7 @@
 - `CameraShake`(Main Camera): 보스 사망·봄·피탄 시 흔들림(unscaledDeltaTime).
 - `EffectPool`: 격파 폭발 이펙트 풀(20개), 적/보스 사망 시 재생.
 - **히트스톱**(`GameManager.HitStop`, 보스사망/봄/피탄 시 짧은 정지), 피격 플래시(Enemy 흰색), 발사·픽업·경고 SFX 등 전 이벤트 연결.
+- **A4 연출**: **머즐 플래시**(`MuzzleFlash`, 발사 시 총구 섬광·차지샷 확대)·**콤보 팝업**(`ComboPopup`, 배율 상승 시 "x2!" 확대·페이드)·**화면 플래시**(`ScreenFlash`, 봄=시안/피탄=적/보스사망=백).
 
 ---
 
@@ -108,6 +109,6 @@
 - 픽업·드롭·FormationGroup·이펙트는 **아직 풀링 아님**(저빈도라 허용, 물량 늘면 C2 필요).
 - 보스 "분리"는 잔해 적 방사까지(="합체"는 미구현).
 - **스테이지 2개**: `S01_Space`(보스 `B01_Battleship` 촉수형) → `StageDirector.nextStage=S02_DeepSpace`(보스 `B02_VoidDreadnought`). 진행: Stage1(B01) → Stage2(B02) 후 **S02 반복**(loop=true, nextStage 고정이라 S02가 계속 반복 — S1↔S2 순환은 per-stage nextStage 도입 필요, 후속). `B02`: 코어 420, 포탑 4, 페이즈 Ring→Cross→Storm(시안/보라 탄), 변신·분리(무촉수), 바디 스프라이트 `Boss2_Body.png`(pixellab biomech 드레드노트).
-- HUD는 legacy uGUI Text + 빌트인 폰트(TMP 에센셜 미임포트).
+- HUD는 uGUI Text 기반, 폰트는 **픽셀 TTF `AstraPixel.ttf`** 적용(TMP 미전환 — 고급화 시 TMP 전환 여지).
 - 검증 스크린샷은 `Assets/Screenshots/`(gitignore 대상).
-- 함정 상세는 Claude 메모리(`~/.claude/projects/.../memory/`)에도 4건 기록됨(execute_code 제약·네임스페이스 충돌·Unlit·pixellab 파이프라인).
+- 함정 상세는 Claude 메모리(`~/.claude/projects/.../memory/`)에도 5건 기록됨(execute_code 제약·네임스페이스 충돌·Unlit·pixellab 스프라이트/폰트 파이프라인).
