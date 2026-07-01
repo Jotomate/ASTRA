@@ -2,7 +2,7 @@
 
 > **매 세션 시작 시 이 문서를 먼저 읽고** 진행 현황·다음 할 일을 파악한다.
 > 설계 근거는 `./GDD.md`, 구현 규칙은 `./CLAUDE.md`. 본 문서는 **"지금까지 만든 것 + 다음에 할 것 + 함정"** 요약.
-> 최종 갱신: 2026-07-01
+> 최종 갱신: 2026-07-01 (차지 모드 코드 작성 — Unity 검증 대기)
 
 ---
 
@@ -10,7 +10,7 @@
 - Unity **6000.3.7f1**, URP 2D. 메인 씬 `Assets/Scenes/SampleScene.unity`.
 - **Play 모드**로 검증. Player Settings에 **Run In Background = ON**(영구) — 비포커스에서도 프레임 진행.
 - MCP(UnityMCP)로 에디터 제어 가능. pixellab MCP로 픽셀아트 생성.
-- 조작: 이동 방향키/WASD · 발사 `Z`/`Space` · 이탈 `X` · 봄 `C`/`B` · **시작 `Z`/`Enter` · 일시정지 `ESC`/`P` · 재시작 `R`**.
+- 조작: 이동 방향키/WASD · 발사 `Z`/`Space`/**마우스 좌클릭** · 이탈 `X` · 봄 `C`/`B` · **시작 `Z`/`Enter` · 일시정지 `ESC`/`P` · 재시작 `R`**.
 - 콘텐츠 저작: Unity 상단 메뉴 **`ASTRA/①무기 ②적기 ②-B편대 ③보스 ④레벨 에디터`**.
 - **버전관리**: git 저장소, 원격 GitHub **https://github.com/Jotomate/ASTRA** (`main`). 작업 마무리마다 커밋·푸시(사용자 요청 시). `.gitignore`로 Library/Temp/Logs/Screenshots 제외, `.claude/`는 추적. 커밋 메시지 끝에 `Co-Authored-By: Claude ...`.
 
@@ -33,7 +33,7 @@
 - 드롭(P/W), 점수, **콤보 배율 스코어링**(연속 처치 → ×1~8, 시간초과/피탄 시 리셋), **1UP(익스텐드)**, 게임오버/재시작, **멀티 스테이지 진행**.
 - `StageDirector` 스폰 타임라인(웨이브→경고→보스→클리어), 배경 **다중 스크롤(별필드 3층)**, **지형 블록**(`TerrainBlock`, 파괴가능·탄차단·접촉피해, `SpawnKind.Terrain`).
 - HUD: 점수/**콤보**/라이프/무기출력/무기명/봄/스테이지 · **타이틀**/**PAUSED**/GAME OVER/보스바/WARNING/STAGE CLEAR (legacy uGUI Text).
-- pixellab 실제 스프라이트: 기체·적기·보스 본체. **기체 좌/우 뱅킹**(`PlayerBank`: 이동 입력에 따라 BankL/BankR/중립 스프라이트 전환, pixellab `create_object_state`로 생성).
+- pixellab 실제 스프라이트: 기체·적기·보스 본체. **기체 좌/우 뱅킹**(`PlayerBank`: 이동 입력에 따라 BankL/BankR/중립 스프라이트 전환). **뱅킹 아트 = 동체 전체 롤(roll)** — 기수는 위 고정, 동체 전체가 좌/우로 기욺(기수만 도는 yaw 아님). pixellab `create_object_state`로 base player에서 재생성, 기존 `PlayerShip_BankL/R.png` 덮어씀(참조 유지).
 - **5대 커스텀 에디터**(무기/적기/편대/보스/레벨) — 카드 목록·생성·삭제·편집.
 
 **사운드 / 손맛 (juice)**
@@ -61,6 +61,21 @@
 5. **풀링 객체는 재사용 시 모든 상태 리셋**(탄 스프라이트가 안 바뀌던 버그 사례). `WeaponController.Equip`은 `spinAngle=0` 리셋.
 6. **MCP 검증**: 비포커스 시 `Time.deltaTime≈0` → "한 호출 스폰, 다음 호출 확인"이 프레임 미진행으로 실패 가능. **private 메서드(LateUpdate 등) 직접 invoke**로 결정적 검증. 반복 재활성화로 ghost player 생기면 `GameManager.player`로 검증.
 7. `AssetDatabase.DeleteAsset`/`File.*` 등은 `execute_code`의 `safety_checks=false` 필요.
+
+---
+
+## 3.5 ✅ 완료 — 차지 모드(모아쏘기) [코드+씬+플레이 검증 완료 2026-07-01]
+
+> 홀드→충전, 릴리즈→강화탄. `fireMode==Charge` 카드만 적용(순수 add식). MCP로 컴파일·씬 와이어링·플레이 검증 모두 통과.
+
+**코드:**
+- `WeaponData.cs` — 차지 파라미터: `maxChargeTime`·`chargeDamageMul`·`chargeSizeMul`·`chargePiercing`.
+- `WeaponController.cs` — `ChargeLevel`(0~1) 프로퍼티. `Update()`가 `Charge` 모드에서 홀드→충전·완충 `"power"` SFX·릴리즈 시 `pendingCharge=ChargeLevel; Fire()`. `Fire()`가 `t`로 위력(`Lerp→chargeDamageMul`)·탄 반지름(`chargeSizeMul`)·관통 스케일. `Equip()`에 차지 리셋.
+- `HUD.cs` — `chargeBarRoot`/`chargeFill` + `Update()` 폴링(충전 중 표시, 완충 금색).
+
+**씬:** HUD Canvas 하단 중앙에 `ChargeBar`(bg Image + Filled `Fill` Image) 배치·와이어링. 데모 무기 `W02_Laser`를 `fireMode=Charge`로 설정(`maxChargeTime=0.9`, `chargeDamageMul=4`, `chargeSizeMul=2.5`, `chargePiercing=true`).
+
+**검증 결과(리플렉션 결정적):** ChargeLevel 0→0.5→1(clamp) 정확 · 탄 반지름 무충전 0.12→완충 0.30(×2.5) · HUD 게이지 절반(파랑 0.5)/완충(금색 1.0)/미충전(숨김) 정상.
 
 ---
 

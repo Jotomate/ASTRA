@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ShootingGame.Weapon.WeaponData
   weaponName: Laser
   icon: {fileID: 0}
-  fireMode: 1
+  fireMode: 2
   shotSpeed: 22
   baseDamage: 1.2
   damageDecay: 0
@@ -25,6 +25,14 @@ MonoBehaviour:
   bulletRadius: 0.12
   isReflecting: 0
   maxBounces: 0
+  isHoming: 0
+  homingTurnRate: 240
+  spinRate: 0
+  isLockOn: 0
+  maxChargeTime: 0.9
+  chargeDamageMul: 4
+  chargeSizeMul: 2.5
+  chargePiercing: 1
   wayCount: 01000000010000000200000002000000
   damageMul:
   - 1

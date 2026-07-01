@@ -49,6 +49,16 @@ namespace ShootingGame.Weapon
         [Tooltip("록온: 주변 적 다수를 잡아 각각에 유도탄 발사(wayCount=동시 락온 수)")]
         public bool isLockOn = false;
 
+        [Header("차지 (fireMode = Charge)")]
+        [Tooltip("완충까지 걸리는 홀드 시간(초)")]
+        public float maxChargeTime = 1.0f;
+        [Tooltip("완충 시 위력 배율(1=충전 안 됨)")]
+        public float chargeDamageMul = 3f;
+        [Tooltip("완충 시 탄 크기(반지름) 배율")]
+        public float chargeSizeMul = 2f;
+        [Tooltip("완충(≥90%) 시 관통 부여")]
+        public bool chargePiercing = true;
+
         [Header("무기-출력 강화 곡선 (Lv.1~4)")]
         [Tooltip("동시 발사 수")]
         public int[] wayCount = new int[4] { 1, 2, 3, 4 };

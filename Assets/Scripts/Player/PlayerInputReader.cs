@@ -44,6 +44,7 @@ namespace ShootingGame.Player
             fireAction.AddBinding("<Keyboard>/z");
             fireAction.AddBinding("<Keyboard>/space");
             fireAction.AddBinding("<Gamepad>/buttonSouth");
+            fireAction.AddBinding("<Mouse>/leftButton");   // 마우스 좌클릭 발사
 
             // 이탈키 — 발사키와 분리 배치
             ejectAction = new InputAction("Eject", InputActionType.Button);

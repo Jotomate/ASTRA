@@ -30,10 +30,18 @@ namespace ShootingGame.Weapon
         /// <summary>장착 무기 변경 시 발생(HUD 등 구독용).</summary>
         public event System.Action<WeaponData> WeaponChanged;
 
+        /// <summary>차지 무기 홀드 충전량 0~1 (차지 무기 아니거나 미충전 시 0). HUD 게이지용.</summary>
+        public float ChargeLevel =>
+            Current != null && Current.fireMode == FireMode.Charge && Current.maxChargeTime > 0f
+                ? Mathf.Clamp01(chargeTime / Current.maxChargeTime) : 0f;
+
         Player.Player player;
         PlayerInputReader input;
         float cooldown;
-        float spinAngle;   // 전방위샷 회전 누적각
+        float spinAngle;    // 전방위샷 회전 누적각
+        float chargeTime;   // 차지 홀드 누적
+        float pendingCharge;// 발사 직전 소비할 차지 레벨
+        bool wasFiring, wasFull;
 
         void Awake()
         {
@@ -56,13 +64,35 @@ namespace ShootingGame.Weapon
             if (input.EjectPressed)
                 Eject();
 
-            if (Current == null) return;
+            if (Current == null) { wasFiring = false; return; }
 
-            if (input.IsFiring && cooldown <= 0f)
+            bool firing = input.IsFiring;
+
+            if (Current.fireMode == FireMode.Charge)
+            {
+                if (firing)
+                {
+                    chargeTime += Time.deltaTime;               // 홀드 → 충전
+                    if (!wasFull && ChargeLevel >= 1f)          // 완충 알림음(1회)
+                    {
+                        wasFull = true;
+                        if (AudioManager.Instance != null) AudioManager.Instance.Play("power", 0.5f);
+                    }
+                }
+                else if (wasFiring)                             // 뗀 순간 → 발사
+                {
+                    pendingCharge = ChargeLevel;
+                    Fire();
+                    chargeTime = 0f; wasFull = false;
+                }
+            }
+            else if (firing && cooldown <= 0f)                  // 일반: 유지 연사
             {
                 Fire();
                 cooldown = Current.GetFireInterval(player.PowerLevel);
             }
+
+            wasFiring = firing;
         }
 
         /// <summary>
@@ -94,6 +124,7 @@ namespace ShootingGame.Weapon
             Current = weapon != null ? weapon : defaultWeapon;
             cooldown = 0f;
             spinAngle = 0f;   // 무기 교체 시 전방위 회전각 초기화 (다음 무기 발사각 틀어짐 방지)
+            chargeTime = 0f; wasFull = false; pendingCharge = 0f;   // 차지 리셋
             WeaponChanged?.Invoke(Current);
         }
 
@@ -103,15 +134,22 @@ namespace ShootingGame.Weapon
             BulletPool poolInst = BulletPool.Instance;
             if (poolInst == null || Current == null) return;
 
+            // 차지 배율 (일반 발사는 t=0 → 배율 1)
+            float t = pendingCharge; pendingCharge = 0f;
+            bool charged = t > 0.05f;
+            float dmgMul = Mathf.Lerp(1f, Current.chargeDamageMul, t);
+            float radius = Current.bulletRadius * Mathf.Lerp(1f, Current.chargeSizeMul, t);
+            bool pierce = Current.isPiercing || (t >= 0.9f && Current.chargePiercing);
+
             if (AudioManager.Instance != null)
-                AudioManager.Instance.Play(Current.isPiercing ? "laser" : "shoot", 0.28f);
+                AudioManager.Instance.Play(Current.isPiercing ? "laser" : "shoot", charged ? 0.6f : 0.28f);
 
             int level = player.PowerLevel;
             int ways = Mathf.Max(1, Current.GetWayCount(level));
-            float dmg = Current.GetDamage(level);
+            float dmg = Current.GetDamage(level) * dmgMul;
             Vector2 origin = muzzle != null ? (Vector2)muzzle.position : (Vector2)transform.position;
 
-            if (Current.isLockOn) { FireLockOn(poolInst, origin, ways, dmg); return; }
+            if (Current.isLockOn) { FireLockOn(poolInst, origin, ways, dmg, radius, pierce); return; }
 
             float baseAngle = 90f + spinAngle;   // 위쪽 + 전방위 회전
             float half = Current.spreadAngle * 0.5f;
@@ -125,8 +163,8 @@ namespace ShootingGame.Weapon
                 Vector2 dir = new Vector2(Mathf.Cos(rad), Mathf.Sin(rad));
 
                 ShootingGame.Bullet.Bullet b = poolInst.Get();
-                b.Launch(origin, dir * Current.shotSpeed, dmg, Current.bulletRadius,
-                         true, Current.isPiercing, Current.bulletColor, Current.bulletSprite,
+                b.Launch(origin, dir * Current.shotSpeed, dmg, radius,
+                         true, pierce, Current.bulletColor, Current.bulletSprite,
                          Current.isReflecting, Current.maxBounces,
                          Current.isHoming, Current.homingTurnRate);
             }
@@ -138,7 +176,7 @@ namespace ShootingGame.Weapon
         readonly List<Transform> lockBuf = new List<Transform>(8);
 
         /// <summary>록온: 가까운 적 다수를 잡아 각각에 유도 레이저 발사. 대상 없으면 부채꼴 유도탄.</summary>
-        void FireLockOn(BulletPool pool, Vector2 origin, int count, float dmg)
+        void FireLockOn(BulletPool pool, Vector2 origin, int count, float dmg, float radius, bool pierce)
         {
             if (CollisionManager.Instance != null) CollisionManager.Instance.FindNearestTargets(origin, count, lockBuf);
             else lockBuf.Clear();
@@ -150,7 +188,7 @@ namespace ShootingGame.Weapon
                     ? ((Vector2)target.position - origin).normalized
                     : AngleDir(count > 1 ? 90f - 20f + 40f * i / (count - 1) : 90f);
                 var b = pool.Get();
-                b.Launch(origin, dir * Current.shotSpeed, dmg, Current.bulletRadius, true, Current.isPiercing,
+                b.Launch(origin, dir * Current.shotSpeed, dmg, radius, true, pierce,
                          Current.bulletColor, Current.bulletSprite, Current.isReflecting, Current.maxBounces,
                          true, Current.homingTurnRate, target);
             }

@@ -25,6 +25,10 @@ namespace ShootingGame.UI
         [SerializeField] GameObject titleRoot;
         [SerializeField] Text pausedText;
 
+        [Header("차지 게이지")]
+        [SerializeField] GameObject chargeBarRoot;
+        [SerializeField] Image chargeFill;
+
         [Header("보스")]
         [SerializeField] GameObject bossBar;
         [SerializeField] Image bossFill;
@@ -88,6 +92,14 @@ namespace ShootingGame.UI
         {
             if (warningActive && warningText != null)
                 warningText.enabled = Mathf.FloorToInt(Time.unscaledTime * 4f) % 2 == 0;
+
+            if (weapon != null && chargeFill != null)
+            {
+                float c = weapon.ChargeLevel;
+                if (chargeBarRoot != null) chargeBarRoot.SetActive(c > 0.01f);
+                chargeFill.fillAmount = c;
+                chargeFill.color = c >= 1f ? new Color(1f, 0.95f, 0.5f) : new Color(0.5f, 0.8f, 1f);
+            }
         }
 
         void OnDestroy()
