@@ -86,7 +86,7 @@
 - ✅ **A2 사운드** 완료: 합성 SFX + 절차적 BGM. (실제 오디오 에셋/믹싱은 추후 고급화 여지)
 - ✅ **A3 게임 플로우** 완료: 타이틀 화면 + 상태머신(Title/Playing/Paused/GameOver) + 일시정지(ESC/P) + 재시작. `GameManager.IsPlaying`로 발사/이탈/봄 게이트, timeScale로 정지.
 - ✅ **A5 히트스톱** 완료: 보스사망/봄/피탄 시 `GameManager.HitStop(초)` 짧은 정지.
-- **A4 UI 폴리시**(남음): HUD가 빌트인 폰트(legacy uGUI Text) — 픽셀 TTF/TMP 또는 pixellab `create_font` 필요(폰트 에셋 파이프라인 작업). **머즐 플래시·콤보 팝업·화면 플래시**도 남은 폴리시.
+- **A4 UI 폴리시**(일부 완료): ✅ **머즐 플래시**(`MuzzleFlash`, 플레이어 자식, 절차 글로우 스프라이트, 발사 시 명멸·차지샷 확대)·✅ **콤보 팝업**(`ComboPopup`, 배율 상승 시 "x2!" 확대·페이드)·✅ **화면 플래시**(`ScreenFlash`, HUD 전체 덮개, 봄=시안/피탄=적/보스사망=백, unscaled). **남음**: HUD 빌트인 폰트(legacy uGUI Text) → 픽셀 TTF/TMP 또는 pixellab `create_font`(폰트 파이프라인).
 
 ### B. 미구현 심화
 - ✅ **B4 W06 록온레이저** 완료: `CollisionManager.FindNearestTargets`로 다중 락온 → 각 적에 유도 레이저(`WeaponController.FireLockOn`, `Bullet.lockTarget`).

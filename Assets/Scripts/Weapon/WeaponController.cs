@@ -24,6 +24,10 @@ namespace ShootingGame.Weapon
         [SerializeField] float ejectDamage = 50f;
         [SerializeField] ShootingGame.Effect.ExplosionEffect explosion;
 
+        [Header("연출")]
+        [Tooltip("발사 시 총구 섬광(비우면 생략)")]
+        [SerializeField] ShootingGame.Effect.MuzzleFlash muzzleFlash;
+
         public WeaponData Current { get; private set; }
         /// <summary>기본 무기가 아닌 무기를 장착 중인가(이탈 가능 상태).</summary>
         public bool HasEquippedWeapon => Current != null && Current != defaultWeapon;
@@ -148,6 +152,9 @@ namespace ShootingGame.Weapon
             int ways = Mathf.Max(1, Current.GetWayCount(level));
             float dmg = Current.GetDamage(level) * dmgMul;
             Vector2 origin = muzzle != null ? (Vector2)muzzle.position : (Vector2)transform.position;
+
+            if (muzzleFlash != null)
+                muzzleFlash.Flash(origin, Current.bulletColor, charged ? 1.7f : 1f);
 
             if (Current.isLockOn) { FireLockOn(poolInst, origin, ways, dmg, radius, pierce); return; }
 

@@ -78,6 +78,7 @@ namespace ShootingGame.Player
             if (CameraShake.Instance != null) CameraShake.Instance.Shake(0.6f, 0.5f);
             if (GameManager.Instance != null) GameManager.Instance.HitStop(0.06f);
             if (EffectPool.Instance != null) EffectPool.Instance.Play(transform.position, 4f, new Color(0.7f, 0.95f, 1f, 1f));
+            if (ShootingGame.UI.ScreenFlash.Instance != null) ShootingGame.UI.ScreenFlash.Instance.Flash(new Color(0.7f, 0.95f, 1f), 0.55f, 0.35f);
         }
 
         /// <summary>파워업(P) 아이템 1개당 +1단계. (GDD §3)</summary>
@@ -101,6 +102,7 @@ namespace ShootingGame.Player
             if (CameraShake.Instance != null) CameraShake.Instance.Shake(0.4f, 0.4f);
             if (GameManager.Instance != null) GameManager.Instance.HitStop(0.08f);
             if (EffectPool.Instance != null) EffectPool.Instance.Play(transform.position, 1.2f, new Color(0.6f, 0.9f, 1f, 1f));
+            if (ShootingGame.UI.ScreenFlash.Instance != null) ShootingGame.UI.ScreenFlash.Instance.Flash(new Color(1f, 0.2f, 0.2f), 0.6f, 0.4f);
 
             if (GameManager.Instance != null) GameManager.Instance.ResetCombo();
 
