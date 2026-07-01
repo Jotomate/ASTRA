@@ -867,7 +867,7 @@ MonoBehaviour:
   spriteMaterial: {fileID: 2100000, guid: 7cf40c5e330351945b5ce8d2144ce83e, type: 2}
   spawnTopMargin: 0.6
   terrainSprite: {fileID: 302188768915829026, guid: c24afb0504300ab4180688bd4a246b64, type: 3}
-  nextStage: {fileID: 0}
+  nextStage: {fileID: 11400000, guid: 30a8c686e683a1a43a271404bd47f43c, type: 2}
   loop: 1
   clearToNextDelay: 4
 --- !u!4 &511008296

@@ -107,7 +107,7 @@
 ## 5. 알려진 제약 / 메모
 - 픽업·드롭·FormationGroup·이펙트는 **아직 풀링 아님**(저빈도라 허용, 물량 늘면 C2 필요).
 - 보스 "분리"는 잔해 적 방사까지(="합체"는 미구현).
-- **스테이지는 `S01_Space` 1개만 존재**, `StageDirector.loop=true`로 반복(스테이지 번호만 증가) — 전용 Stage2 없음. 촉수 보스 `B01`은 매 루프 끝 등장(= Stage1·2 동일 보스).
+- **스테이지 2개**: `S01_Space`(보스 `B01_Battleship` 촉수형) → `StageDirector.nextStage=S02_DeepSpace`(보스 `B02_VoidDreadnought`). 진행: Stage1(B01) → Stage2(B02) 후 **S02 반복**(loop=true, nextStage 고정이라 S02가 계속 반복 — S1↔S2 순환은 per-stage nextStage 도입 필요, 후속). `B02`: 코어 420, 포탑 4, 페이즈 Ring→Cross→Storm(시안/보라 탄), 변신·분리(무촉수), 바디 스프라이트 `Boss2_Body.png`(pixellab biomech 드레드노트).
 - HUD는 legacy uGUI Text + 빌트인 폰트(TMP 에센셜 미임포트).
 - 검증 스크린샷은 `Assets/Screenshots/`(gitignore 대상).
 - 함정 상세는 Claude 메모리(`~/.claude/projects/.../memory/`)에도 4건 기록됨(execute_code 제약·네임스페이스 충돌·Unlit·pixellab 파이프라인).

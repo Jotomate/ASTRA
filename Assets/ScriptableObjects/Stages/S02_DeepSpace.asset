@@ -1,0 +1,136 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 99eccbcf0592875479daa68012a19fdd, type: 3}
+  m_Name: S02_DeepSpace
+  m_EditorClassIdentifier: Assembly-CSharp::ShootingGame.Stage.StageData
+  baseScrollSpeed: 3
+  layers:
+  - name: Far
+    sprite: {fileID: -2485832989840165745, guid: ba3a8b20d25d9624dbd94cf90aa2595f, type: 3}
+    scrollFactor: 0.25
+    sortingOrder: -130
+    tint: {r: 1, g: 1, b: 1, a: 1}
+  - name: Mid
+    sprite: {fileID: -4314827073483629443, guid: 3e617c948f2c1a24fb16f8b60ba1341b, type: 3}
+    scrollFactor: 0.55
+    sortingOrder: -120
+    tint: {r: 1, g: 1, b: 1, a: 1}
+  - name: Near
+    sprite: {fileID: -1353836091873184233, guid: b23081786ee510443b8d72edf63686e3, type: 3}
+    scrollFactor: 1
+    sortingOrder: -110
+    tint: {r: 1, g: 1, b: 1, a: 1}
+  spawnEvents:
+  - label: Wave1 V
+    time: 1
+    kind: 1
+    enemy: {fileID: 0}
+    formation: {fileID: 11400000, guid: a790711d29933f044b1a3c46902069b6, type: 2}
+    boss: {fileID: 0}
+    spawnX: 0
+    spawnXJitter: 0
+  - label: Wave2 ColL
+    time: 2.5
+    kind: 1
+    enemy: {fileID: 0}
+    formation: {fileID: 11400000, guid: d718a8fa85f1c73438c8ef1bf12b7f97, type: 2}
+    boss: {fileID: 0}
+    spawnX: -2
+    spawnXJitter: 0
+  - label: Wave2 ColR
+    time: 3
+    kind: 1
+    enemy: {fileID: 0}
+    formation: {fileID: 11400000, guid: d718a8fa85f1c73438c8ef1bf12b7f97, type: 2}
+    boss: {fileID: 0}
+    spawnX: 2
+    spawnXJitter: 0
+  - label: Terrain L
+    time: 4
+    kind: 4
+    enemy: {fileID: 0}
+    formation: {fileID: 0}
+    boss: {fileID: 0}
+    spawnX: -3
+    spawnXJitter: 0
+  - label: Wave3 Weave
+    time: 5
+    kind: 1
+    enemy: {fileID: 0}
+    formation: {fileID: 11400000, guid: b7b750767f6a818489230ea537cfffc3, type: 2}
+    boss: {fileID: 0}
+    spawnX: 0
+    spawnXJitter: 0
+  - label: Cannon L
+    time: 6
+    kind: 0
+    enemy: {fileID: 11400000, guid: d31e358f731e6e7478378e13a81052fb, type: 2}
+    formation: {fileID: 0}
+    boss: {fileID: 0}
+    spawnX: -3.5
+    spawnXJitter: 0
+  - label: Cannon R
+    time: 6
+    kind: 0
+    enemy: {fileID: 11400000, guid: d31e358f731e6e7478378e13a81052fb, type: 2}
+    formation: {fileID: 0}
+    boss: {fileID: 0}
+    spawnX: 3.5
+    spawnXJitter: 0
+  - label: Wave4 Line
+    time: 7
+    kind: 1
+    enemy: {fileID: 0}
+    formation: {fileID: 11400000, guid: c0f1f02f827281048bcf97e5873484b9, type: 2}
+    boss: {fileID: 0}
+    spawnX: 0
+    spawnXJitter: 0
+  - label: Terrain R
+    time: 8
+    kind: 4
+    enemy: {fileID: 0}
+    formation: {fileID: 0}
+    boss: {fileID: 0}
+    spawnX: 3
+    spawnXJitter: 0
+  - label: Wave5 VL
+    time: 9
+    kind: 1
+    enemy: {fileID: 0}
+    formation: {fileID: 11400000, guid: a790711d29933f044b1a3c46902069b6, type: 2}
+    boss: {fileID: 0}
+    spawnX: -1.5
+    spawnXJitter: 0
+  - label: Wave5 VR
+    time: 9.5
+    kind: 1
+    enemy: {fileID: 0}
+    formation: {fileID: 11400000, guid: a790711d29933f044b1a3c46902069b6, type: 2}
+    boss: {fileID: 0}
+    spawnX: 1.5
+    spawnXJitter: 0
+  - label: WARNING
+    time: 10.5
+    kind: 2
+    enemy: {fileID: 0}
+    formation: {fileID: 0}
+    boss: {fileID: 0}
+    spawnX: 0
+    spawnXJitter: 0
+  - label: BOSS
+    time: 13
+    kind: 3
+    enemy: {fileID: 0}
+    formation: {fileID: 0}
+    boss: {fileID: 11400000, guid: 3f69eea8295ffcb49a31b3a3d3b9af16, type: 2}
+    spawnX: 0
+    spawnXJitter: 0
